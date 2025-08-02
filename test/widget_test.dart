@@ -3,7 +3,7 @@ import 'package:link_up_v1/main.dart';
 
 void main() {
   testWidgets('Onboarding screen renders correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(const StudyDoApp());
+    await tester.pumpWidget(const LinkUpApp());
 
     // Check that the logo text appears
     expect(find.text('study.do'), findsOneWidget); // This won't work with RichText

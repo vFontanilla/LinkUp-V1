@@ -5,6 +5,44 @@ import 'package:link_up_v1/screens/login_screen.dart';
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
+  void _showCustomModal(BuildContext context, Widget child) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return AnimatedPadding(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            child: DraggableScrollableSheet(
+              initialChildSize: 0.8,
+              maxChildSize: 0.95,
+              minChildSize: 0.5,
+              expand: false,
+              builder: (context, scrollController) {
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: child,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +78,10 @@ class OnboardingScreen extends StatelessWidget {
                 const SizedBox(height: 50),
 
                 ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => const LoginScreen(),
-                  );
-                },
+                  onPressed: () {
+                    _showCustomModal(context, const LoginScreen());
+                    // _showCustomModal(context, const Text('Login Placeholder'));
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: Colors.white,
@@ -63,13 +97,7 @@ class OnboardingScreen extends StatelessWidget {
 
                 ElevatedButton(
                   onPressed: () {
-                    // Navigate to sign-up screen
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      builder: (context) => const SignupScreen(),
-                    );                    
+                    _showCustomModal(context, const SignupScreen());
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
@@ -82,7 +110,7 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                   child: const Text('Create a new account', style: TextStyle(fontSize: 16)),
                 ),
-                
+
                 const Spacer(),
               ],
             ),
